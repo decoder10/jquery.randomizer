@@ -1,4 +1,4 @@
-/*! jQuery randomizer v0.1.0 | (c) 2014 Aram Mkrtchyan | arammkrtchyan.info/randomizer
+/*! jQuery randomizer v0.1.1 | (c) 2014 Aram Mkrtchyan | arammkrtchyan.info/randomizer
  *
  */
 (function ($) {
@@ -24,31 +24,42 @@
 			return array;
 		}
 
-		function random(container) {
+		function random(container, just) {
+			just = just || false;
 			var existingCords = [];
 
 			var blockWidth = $(container).width();
 			var blockHeight = $(container).height();
 			var imgArray = shuffle($('img', container));
 
-			imgArray.each(function () {
+			imgArray.each(function() {
 				var h = $(this).height();
 				var w = $(this).width();
 				var thisTop;
 				var thisLeft;
-
+				var attempts = 0;
 				while (true) {
 					thisTop = getRandomInt(0, blockHeight - h);
 					thisLeft = getRandomInt(0, blockWidth - w);
 					var valid = true;
-					for (var i in existingCords) {
-						if (!existingCords.hasOwnProperty(i)) continue;
-						var n = existingCords[i];
-						valid = valid && ((thisTop + h < n.top || thisTop > n.thisHeight) || ( thisLeft + w < n.left || thisLeft > n.thisWidth ));
+					if (!just) {
+						for (var i in existingCords) {
+							if (!existingCords.hasOwnProperty(i)) continue;
+							var n = existingCords[i];
+							valid = valid && ((thisTop + h < n.top || thisTop > n.thisHeight) || ( thisLeft + w < n.left || thisLeft > n.thisWidth ));
+						}
 					}
 					if (valid) {
 						break;
 					}
+					++attempts;
+					if (attempts == 10) {
+						break;
+					}
+				}
+				if (attempts == 10) {
+					random(container, true);
+					return false;
 				}
 				existingCords.push({top: thisTop, left: thisLeft, thisWidth: thisLeft + w, thisHeight: thisTop + h});
 				$(this).css({
