@@ -1,13 +1,15 @@
-/*! jQuery randomizer v0.1.0 | (c) 2014 Aram Mkrtchyan | arammkrtchyan.info/randomizer
+/*! jQuery randomizer v0.2.0 | (c) 2014 Aram Mkrtchyan | arammkrtchyan.info/randomizer
  *
  */
 (function ($) {
 	$.fn.randomizer = function (options) {
 
 		var settings = $.extend({
-			resize: false
+			resize: false,
+			fade: false,
+			fadeSpeed:"400"			
 		}, options );
-
+		
 		function getRandomInt(min, max) {
 			return Math.floor(Math.random() * (max - min + 1)) + min;
 		}
@@ -24,37 +26,61 @@
 			return array;
 		}
 
-		function random(container) {
+		function random(container, just) {
+			just = just || false;
 			var existingCords = [];
 
 			var blockWidth = $(container).width();
 			var blockHeight = $(container).height();
 			var imgArray = shuffle($('img', container));
 
-			imgArray.each(function () {
+			imgArray.each(function() {
 				var h = $(this).height();
 				var w = $(this).width();
 				var thisTop;
 				var thisLeft;
-
+				var attempts = 0;
 				while (true) {
 					thisTop = getRandomInt(0, blockHeight - h);
 					thisLeft = getRandomInt(0, blockWidth - w);
 					var valid = true;
-					for (var i in existingCords) {
-						if (!existingCords.hasOwnProperty(i)) continue;
-						var n = existingCords[i];
-						valid = valid && ((thisTop + h < n.top || thisTop > n.thisHeight) || ( thisLeft + w < n.left || thisLeft > n.thisWidth ));
+					if (!just) {
+						for (var i in existingCords) {
+							if (!existingCords.hasOwnProperty(i)) continue;
+							var n = existingCords[i];
+							valid = valid && ((thisTop + h < n.top || thisTop > n.thisHeight) || ( thisLeft + w < n.left || thisLeft > n.thisWidth ));
+						}
 					}
 					if (valid) {
 						break;
 					}
+					++attempts;
+					if (attempts == 10) {
+						break;
+					}
+				}
+				if (attempts == 10) {
+					random(container, true);
+					return false;
 				}
 				existingCords.push({top: thisTop, left: thisLeft, thisWidth: thisLeft + w, thisHeight: thisTop + h});
-				$(this).css({
-					top: thisTop,
-					left: thisLeft
-				});
+				if (settings.fade) {	
+					$(this).fadeOut(settings.fadeSpeed, function() {
+						$(this).css({
+							top: thisTop,
+							left: thisLeft
+						});				
+						$(this).fadeIn(settings.fadeSpeed);
+					});
+				} else {
+					$(this).css({
+						top: thisTop,
+						left: thisLeft
+					});
+						
+					$(this).show();
+				}
+				
 			});
 		}
 
@@ -65,6 +91,11 @@
 					random($this);
 				});
 			}
+			// if (settings.fade) {
+				// $(this).fadeOut( "slow", function() {
+					// $(this).fadeIn("slow");
+				// });
+			// }
 			random($this);
 		});
 	}
