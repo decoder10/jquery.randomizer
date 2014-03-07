@@ -1,4 +1,4 @@
-/*! jQuery randomizer v0.3.0 | (c) 2014 Aram Mkrtchyan | arammkrtchyan.info/randomizer
+/*! jQuery randomizer v0.4.0 | (c) 2014 Aram Mkrtchyan | arammkrtchyan.info/randomizer
  *
  */
 (function ($) {
@@ -11,7 +11,10 @@
 			animation: false,
 			animationSpeed: 500,
 			repeat: true,
-			repeatInterval: 5000
+			repeatInterval: 5000,
+			randomSize: true,
+			linerAnimation: false,
+			linerAnimationSpeed: 500
 		}, options );
 		
 		function getRandomInt(min, max) {
@@ -39,6 +42,9 @@
 			var imgArray = shuffle($('img', container));
 
 			imgArray.each(function() {
+				if(settings.randomSize){
+					$(this).css("width", Math.floor(Math.random() * (100- 60 + 1)) + 60)
+				}
 				var h = $(this).height();
 				var w = $(this).width();
 				var thisTop;
@@ -76,13 +82,22 @@
 						});				
 						$(this).fadeIn(settings.fadeSpeed);
 					});
+				}else if(settings.linerAnimation){
+				$(this).show();
+					$(this).stop(true,true).animate({
+						top: thisTop						
+					}, settings.linerAnimationSpeed, function() {
+					$(this).stop(true,true).animate({
+						left: thisLeft
+					}, settings.linerAnimationSpeed);
+					
+					});
 				} else if(settings.animation){
 					$(this).show();
 					$(this).stop(true,true).animate({
 						top: thisTop,
-						left: thisLeft
-					}, settings.animationSpeed, function() {
-					
+						left: thisLeft						
+					}, settings.animationSpeed, function() {				
 					});
 				}else {
 					$(this).css({
