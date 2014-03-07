@@ -5,6 +5,9 @@ jquery plugin putting images in random position in a given container.
 
 Version
 ----
+
+0.4.0
+
 0.3.0
 
 0.2.0
@@ -68,8 +71,11 @@ fade: false, //set true for enable fade effect, animation must be false
 fadeSpeed:"400", // fade effect speed 
 animation: false, //set true to move elements with animation, fade must be false 
 animationSpeed: 500, // animation speed
+linerAnimation: false, // elements animated liner
+linerAnimationSpeed: 500, // animation speed
 repeat: true, // when this variable is true elements will change there position every repeatInterval time
-repeatInterval: 5000 // repeat interval using with repeat: true
+repeatInterval: 5000, // repeat interval using with repeat: true
+randomSize: true, // randomly change width of elements
 ```
 
 Options example
