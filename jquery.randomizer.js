@@ -1,4 +1,4 @@
-/*! jQuery randomizer v0.2.0 | (c) 2014 Aram Mkrtchyan | arammkrtchyan.info/randomizer
+/*! jQuery randomizer v0.3.0 | (c) 2014 Aram Mkrtchyan | arammkrtchyan.info/randomizer
  *
  */
 (function ($) {
