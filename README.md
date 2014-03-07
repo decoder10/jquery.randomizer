@@ -5,8 +5,12 @@ jquery plugin putting images in random position in a given container.
 
 Version
 ----
+0.3.0
+
 0.2.0
+
 0.1.1
+
 0.1.0
 
 How to use
@@ -51,24 +55,31 @@ JavaScript part
 ```sh
 <script>
 	$(function() {
-		$('.container').randomizer({
-			resize: true,
-			fade: true,
-			fadeSpeed: "500"
-		});
+		$('.container').randomizer();
 	});
 </script>
 ```
 
-or
+Options
 
+```sh
+resize: false, //set true for container resizeable
+fade: false, //set true for enable fade effect, animation must be false
+fadeSpeed:"400", // fade effect speed 
+animation: false, //set true to move elements with animation, fade must be false 
+animationSpeed: 500, // animation speed
+repeat: true, // when this variable is true elements will change there position every repeatInterval time
+repeatInterval: 5000 // repeat interval using with repeat: true
+```
+
+Options example
 ```sh
 <script>
 	$(function() {
 		$('.container').randomizer({
 			resize: true,
 			animation: true,
-			animationSpeed: 500
+			animationSpeed: 500,
 		});
 	});
 </script>

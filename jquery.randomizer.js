@@ -7,7 +7,11 @@
 		var settings = $.extend({
 			resize: false,
 			fade: false,
-			fadeSpeed:"400"			
+			fadeSpeed:"400",
+			animation: false,
+			animationSpeed: 500,
+			repeat: true,
+			repeatInterval: 5000
 		}, options );
 		
 		function getRandomInt(min, max) {
@@ -72,7 +76,15 @@
 						});				
 						$(this).fadeIn(settings.fadeSpeed);
 					});
-				} else {
+				} else if(settings.animation){
+					$(this).show();
+					$(this).stop(true,true).animate({
+						top: thisTop,
+						left: thisLeft
+					}, settings.animationSpeed, function() {
+					
+					});
+				}else {
 					$(this).css({
 						top: thisTop,
 						left: thisLeft
@@ -91,11 +103,11 @@
 					random($this);
 				});
 			}
-			// if (settings.fade) {
-				// $(this).fadeOut( "slow", function() {
-					// $(this).fadeIn("slow");
-				// });
-			// }
+			if(settings.repeat){
+			    setInterval(function() {
+					random($this);					  
+				}, settings.repeatInterval);
+			}
 			random($this);
 		});
 	}
