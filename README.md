@@ -55,7 +55,7 @@ CSS part
 
 JavaScript part
 
-```sh
+```html
 <script>
 	$(function() {
 		$('.container').randomizer();
