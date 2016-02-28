@@ -79,8 +79,8 @@ randomSize: true, // randomly change width of elements
 ```
 
 Options example
-```sh
-<script>
+```js
+
 	$(function() {
 		$('.container').randomizer({
 			resize: true,
@@ -88,7 +88,7 @@ Options example
 			animationSpeed: 500,
 		});
 	});
-</script>
+
 ```
 
 
